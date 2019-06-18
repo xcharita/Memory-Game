@@ -1,27 +1,13 @@
-//'use strict';
 /*
  * Create a list that holds all of your cards
  */
 
-/*let allCards = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o','fa-anchor','fa-bolt','fa-cube','fa-anchor','fa-leaf','fa-bicycle','fa-diamond','fa-bomb','fa-leaf','fa-bomb','fa-bolt','fa-bicycle','fa-paper-plane-o','fa-cube'];
-*/
-
-let availableCards = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o',
-                      'fa-anchor','fa-bolt','fa-cube','fa-anchor','fa-leaf',
-                      'fa-bicycle','fa-diamond','fa-bomb','fa-leaf','fa-bomb',
-                      'fa-bolt','fa-bicycle','fa-paper-plane-o','fa-cube'];
-
-let openCardsList = [];
 let firstCard, secondCard;
+let ArrayGameOver = [];
+let NumberOfMoves = 0;
 let cardIsOpen = false;
 
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+var allMoves = document.querySelector('.moves');
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 
@@ -37,7 +23,7 @@ function shuffle(array) {
     }
     
     return array;
-}
+};
 
 
 /*
@@ -51,97 +37,100 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-/*createCard
-//generateGameBoard
-//compareCards
-//gameOver
-function displayCard(){
-    
-};
-
-function isClosed(card) {
-   openCards.pop(card); 
-};
-
-//function pushCard(pCinopenCard,  )
-
-function checkCards(cC) {
-    cC.addEventListener('click', function () {
-        
-    })
-
-}
-*/
 
 function displayCard(){
-    console.log('clicked');
-    console.log(this);
-    console.log('cardIsOpen: ' + cardIsOpen);
-    console.log('firstCard: ' + firstCard);
-    console.log('secondCard:' + secondCard);
     if (!cardIsOpen) {
         firstCard = this;
         firstCard.classList.add('open', 'show');
         cardIsOpen = true;
-        secondCard = null;
     } else {
-//        firstCard.classList.add('open','show');
         secondCard = this;
-        secondCard.classList.add('open', 'show');
-        cardIsOpen = false;
-        console.log('secondCard:' + secondCard.classList);
+        secondCard.classList.add('open', 'show'); 
+        
         if (firstCard.firstElementChild.className === secondCard.firstElementChild.className) {
-            console.log('match with both cards');
             firstCard.classList.add('match');
             secondCard.classList.add('match');
+            
             firstCard.removeEventListener('click', displayCard);
-            secondCard.removeEventListener('click', displayCard); 
+            secondCard.removeEventListener('click', displayCard);
+            
+            GameOver(firstCard.firstElementChild.className,secondCard.firstElementChild.className);
+            
         } else {
-            isClosed(firstCard);
-            setTimeout(isClosed(secondCard), 1000);
-        }
-
-//   setTimeout(isClosed(secondCard), 5000);
-//    firstCard.classList.remove('open', 'show');
-//    secondCard.classList.remove('open', 'show');
-    
+                setTimeout(function() {
+                    isClosed(firstCard);
+                    isClosed(secondCard);
+                }, 500);
+           
+        }   
+        cardIsOpen = false;
     }
-    
-    
-// add class to array for matching cards later
-    
-    
+    NumberOfMoves++;
+    allMoves.textContent = NumberOfMoves;
 };
-/*
-function isOpen() {
-    this.classList.add('open','show');
-    this.addEventListener('click', isClosed);
-    console.log('clicked');
-    console.log(this);
-};
-*/
 
 function isClosed(card) {
     card.classList.remove('open','show');
-    
-    console.log('clicked closed');
-    console.log(card);
-
 };
 
+function newGame() {
+    let cardsForNewGame = document.querySelectorAll('.card');
+    let newCardsArray = [];  
+    let ArrayGameOver = [];
+    NumberOfMoves = 0;
+    startTimer;
+    allMoves.textContent = NumberOfMoves;
+    for (let i=0; i< cardsForNewGame.length; i++) {
+        newCardsArray.push(cardsForNewGame[i].children[0].className);
+    };
+    setNewCards = shuffle(newCardsArray);
+// Loop through the NodeList and assign the correct className to the NodeList
+    for (var i = 0; i < cardsForNewGame.length; i++) {
+        cardsForNewGame[i].className = "card";
+        cardsForNewGame[i].firstElementChild.className = setNewCards[i];
+    };
+    cardsForNewGame.forEach(function(card){
+            card.addEventListener('click', displayCard)});
+};
+
+function GameOver(firstcard, secondcard) {
+    ArrayGameOver.push(firstcard);
+    ArrayGameOver.push(secondcard);
+    console.log(ArrayGameOver);
+    if (ArrayGameOver.length === allCards.length) {
+        window.alert("Game Over !!");
+    } 
+};
+
+function startTimer(){
+    var second = 0, minute = 0; hour = 0;
+    var timer = document.querySelector(".timer");
+    var interval;
+    interval = setInterval(function(){
+        timer.textContent = minute+"mins "+second+"secs";
+        second++;
+        if(second == 60){
+            minute++;
+            second=0;
+        }
+        if(minute == 60){
+            hour++;
+            minute = 0;
+        }
+    },1000);
+};
+
+function stopTimer() {
+    //alertbox "you have finished the game in blalaa" secods
+};
 
 var allCards = document.querySelectorAll('.card');
-var shuffleOption = document.querySelector('.restart')
+var shuffleOption = document.querySelector('.restart');
 
-
-//allCards = shuffleOption.addEventListener('click', shuffle(availableCards));
-
+startTimer();
+allMoves.textContent = 0;
+shuffleOption.addEventListener('click', newGame);
 allCards.forEach(function(card){
-            card.addEventListener('click', displayCard);
- //       openCards =
-//        card.addEventListener('click', isClosed);
-                
-
-    
+            card.addEventListener('click', displayCard); 
 });
  
