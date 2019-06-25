@@ -2,6 +2,7 @@
 let firstCard, secondCard;
 let ArrayGameOver = [];
 let NumberOfMoves = 0;
+let p = 0;
 let cardIsOpen = false;
 let isFirstGame = true;
 
@@ -53,11 +54,12 @@ function displayCard() {
         cardIsOpen = false;
     }
     NumberOfMoves++;
+    console.log(NumberOfMoves);
     allMoves.textContent = NumberOfMoves;
     
 };
 
-function DisplayStars() {
+function DisplayStars(NumberOfMoves) {
     /*    
         	<ul class="stars">
         		<li><i class="fa fa-star"></i></li>
@@ -78,8 +80,9 @@ var fragment = document.createDocumentFragment();
 //});
 
 //element.appendChild(fragment);
-    
+console.log(NumberOfMoves);
 howManyStars = (NumberOfMoves%3);
+console.log(howManyStars);
     for (i=0; i < howManyStars; i++) {
         let newStars = document.createElement('li');
             newStars.innerHTML = '<i class="fa fa-star"></i>';
@@ -116,6 +119,7 @@ function GameOver(firstcard, secondcard) {
     ArrayGameOver.push(firstcard);
     ArrayGameOver.push(secondcard);
     console.log(ArrayGameOver);
+    console.log(p);
     if (!isFirstGame) {
         if (ArrayGameOver.length === allCards.length) {
             window.alert("Game Over !!");
@@ -127,7 +131,10 @@ function GameOver(firstcard, secondcard) {
                 //stopTimer; 
             }
     }
-    DisplayStars;
+    console.log(firstcard);
+    console.log(secondcard);
+    p++;
+    DisplayStars(p);
 };
 
 /*
