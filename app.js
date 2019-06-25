@@ -68,23 +68,17 @@ function DisplayStars(NumberOfMoves) {
         	</ul>
 */
 let howManyStars = 0;
+let newStars;
 var element  = document.getElementsByClassName('stars');
 var fragment = document.createDocumentFragment();
-//var browsers = ['Firefox', 'Chrome', 'Opera', 
-//    'Safari', 'Internet Explorer'];
+    
 
-//browsers.forEach(function(browser) {
-//    var li = document.createElement('li');
-//    li.textContent = browser;
-//    fragment.appendChild(li);
-//});
-
-//element.appendChild(fragment);
 console.log(NumberOfMoves);
 howManyStars = (NumberOfMoves%3);
+newStars.innerHTML = [];    
 console.log(howManyStars);
     for (i=0; i < howManyStars; i++) {
-        let newStars = document.createElement('li');
+            newStars = document.createElement('li');
             newStars.innerHTML = '<i class="fa fa-star"></i>';
             fragment.appendChild(newStars);
     }   
